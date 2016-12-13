@@ -1,0 +1,9 @@
+package: gngeorgiev/audiotic/server
+import:
+- package: github.com/otium/ytdl
+  version: ^0.5.0
+- package: google.golang.org/api
+  subpackages:
+  - googleapi/transport
+- package: github.com/go-errors/errors
+- package: github.com/gin-gonic/gin
