@@ -15,7 +15,7 @@ import (
 //var link = "http://d3b7.vd.aclst.com/dl.php/KMU0tzLwhbE/Developers.mp3?video_id=KMU0tzLwhbE&t=S01VMHR6THdoYkUtMTM4MjQ5ODM4Ni0xNDgxMTA3ODQ0LTg3MjUxMQ%3D%3D&exp=10-12-2016&s=8c33e323449f4c909053d1b2982c96af"
 
 func main() {
-	if err := player.InitPlayer(); err != nil {
+	if err := player.Init(); err != nil {
 		panic(err)
 	}
 
@@ -30,6 +30,8 @@ func main() {
 	p := r.Group("/player")
 	{
 		p.GET("/play/:provider/:id", playHandler())
+		p.GET("/pause", pauseHandler())
+		p.GET("/resume", resumeHandler())
 	}
 
 	log.Fatal(r.Run(":8090"))
@@ -67,6 +69,30 @@ func playHandler() gin.HandlerFunc {
 		provider := c.Param("provider")
 		id := c.Param("id")
 		err := api.Play(strings.ToLower(provider), id)
+		if err != nil {
+			c.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		c.Status(http.StatusOK)
+	}
+}
+
+func pauseHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		err := api.Pause()
+		if err != nil {
+			c.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		c.Status(http.StatusOK)
+	}
+}
+
+func resumeHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		err := api.Resume()
 		if err != nil {
 			c.AbortWithError(http.StatusInternalServerError, err)
 			return

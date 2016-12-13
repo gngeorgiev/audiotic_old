@@ -1,8 +1,10 @@
-hash: 2e3cb6bd8932d93f24ada105436988342952797213c8fc01d4e2823f19211a94
-updated: 2016-12-13T18:21:23.409617067+02:00
+hash: 2f9292759b6d74d0ae24a6114c5f242f8d8552c629719d16ea5e5dd3b5bd3ac5
+updated: 2016-12-13T22:52:05.481318288+02:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 65919c611220063037b1db8eb334acaf17a6d8ea
+- name: github.com/ddliu/go-httpclient
+  version: 7a5db79c2f4120d8a8cb58f2b9136e7a48fdfc65
 - name: github.com/gin-gonic/gin
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
   subpackages:
@@ -14,6 +16,8 @@ imports:
   version: 2402d76f3d41f928c7902a765dfc872356dd3aad
   subpackages:
   - proto
+- name: github.com/kr/pty
+  version: ce7fa45920dc37a92de8377972e52bc55ffa8d57
 - name: github.com/manucorporat/sse
   version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
 - name: github.com/mattn/go-isatty

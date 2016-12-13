@@ -7,3 +7,5 @@ import:
   - googleapi/transport
 - package: github.com/go-errors/errors
 - package: github.com/gin-gonic/gin
+- package: github.com/kr/pty
+- package: github.com/ddliu/go-httpclient
