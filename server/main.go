@@ -9,6 +9,7 @@ import (
 	"gngeorgiev/audiotic/server/player"
 	"strings"
 
+	"gopkg.in/gin-contrib/cors.v1"
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
@@ -20,6 +21,7 @@ func main() {
 	}
 
 	r := gin.Default()
+	r.Use(cors.Default())
 
 	m := r.Group("/meta")
 	{

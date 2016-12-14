@@ -9,3 +9,5 @@ import:
 - package: github.com/gin-gonic/gin
 - package: github.com/kr/pty
 - package: github.com/ddliu/go-httpclient
+- package: gopkg.in/gin-contrib/cors.v1
+  version: v1.1
