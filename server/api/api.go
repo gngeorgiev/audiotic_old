@@ -54,5 +54,5 @@ func performConcurrentOperation(arr []interface{}, f operationFunc) ([]interface
 
 	wg.Wait()
 
-	return results, mergeErrors(errs)
+	return merge(results), mergeErrors(errs)
 }

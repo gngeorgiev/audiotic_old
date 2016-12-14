@@ -1,19 +1,21 @@
 <component name="libraryTable">
   <library name="GOPATH &lt;audiotic&gt;">
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../github.com" />
+      <root url="file://$PROJECT_DIR$/.." />
       <root url="file://$PROJECT_DIR$/../../bin" />
       <root url="file://$PROJECT_DIR$/../../pkg" />
-      <root url="file://$PROJECT_DIR$/.." />
+      <root url="file://$PROJECT_DIR$/../../gopkg.in" />
       <root url="file://$PROJECT_DIR$/../../src" />
-      <root url="file://$PROJECT_DIR$/../../github.com" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../github.com" />
+      <root url="file://$PROJECT_DIR$/.." />
       <root url="file://$PROJECT_DIR$/../../bin" />
       <root url="file://$PROJECT_DIR$/../../pkg" />
-      <root url="file://$PROJECT_DIR$/.." />
+      <root url="file://$PROJECT_DIR$/../../gopkg.in" />
       <root url="file://$PROJECT_DIR$/../../src" />
-      <root url="file://$PROJECT_DIR$/../../github.com" />
     </SOURCES>
     <excluded>
       <root url="file://$PROJECT_DIR$" />

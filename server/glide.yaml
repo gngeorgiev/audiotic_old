@@ -11,3 +11,7 @@ import:
 - package: github.com/ddliu/go-httpclient
 - package: gopkg.in/gin-contrib/cors.v1
   version: v1.1
+- package: github.com/basgys/goxml2json
+- package: golang.org/x/text
+  subpackages:
+  - encoding

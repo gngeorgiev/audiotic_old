@@ -10,6 +10,10 @@ import (
 
 	"errors"
 
+	"strconv"
+	"strings"
+	"unicode"
+
 	"github.com/otium/ytdl"
 	"google.golang.org/api/googleapi/transport"
 	"google.golang.org/api/youtube/v3"
@@ -117,7 +121,7 @@ func (y *YouTubeProvider) GetUrlFromId(id string) string {
 }
 
 func (y *YouTubeProvider) getVideoInfo(id string) (video *youtube.Video, err error) {
-	call := y.service.Videos.List("snippet").Id(id).MaxResults(1)
+	call := y.service.Videos.List("snippet,contentDetails").Id(id).MaxResults(1)
 	r, callError := call.Do()
 	if callError != nil {
 		err = callError
@@ -220,6 +224,31 @@ func (y *YouTubeProvider) Resolve(id string) (models.Track, error) {
 		return models.Track{}, errors.New(fmt.Sprintf("%s", errs))
 	}
 
+	durationString := video.ContentDetails.Duration
+	durationString = strings.Replace(durationString, "PT", "", 1)
+	parseTime := func(str string) int {
+		var t string
+		for _, ch := range durationString {
+			if unicode.IsDigit(ch) {
+				t += fmt.Sprintf("%c", ch)
+			} else {
+				break
+			}
+		}
+
+		if num, err := strconv.Atoi(t); err == nil {
+			return num
+		}
+
+		return 0
+	}
+
+	minutes := parseTime(durationString)
+	durationString = durationString[strings.Index(durationString, "M")+1:]
+	seconds := parseTime(durationString)
+
+	totalSeconds := (minutes * 60) + seconds
+
 	return models.Track{
 		Id:        video.Id,
 		Provider:  y.GetName(),
@@ -227,5 +256,6 @@ func (y *YouTubeProvider) Resolve(id string) (models.Track, error) {
 		Thumbnail: y.getThumbnailUrl(video.Snippet.Thumbnails),
 		Title:     video.Snippet.Title,
 		Next:      nextVideo,
+		Duration:  totalSeconds,
 	}, nil
 }

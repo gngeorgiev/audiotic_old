@@ -1,8 +1,10 @@
-hash: 199870cfe9127757ba68eb7ab28de0c166aaf2ab492483846ec0fca789fd0c74
-updated: 2016-12-14T17:18:41.105620255+02:00
+hash: d61ae913e20bfab0b288468616eecfacae5aeae7f60d9d34b54ffd78031a726d
+updated: 2016-12-14T19:03:18.915692572+02:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 196d48ce4ae8cf1c8f87088d2884eca214240887
+- name: github.com/basgys/goxml2json
+  version: 27ab359192c4f7d1a18521e2a40dcf21b39291eb
 - name: github.com/ddliu/go-httpclient
   version: 7a5db79c2f4120d8a8cb58f2b9136e7a48fdfc65
 - name: github.com/gin-gonic/gin
@@ -35,10 +37,29 @@ imports:
   - context/ctxhttp
   - html
   - html/atom
+  - html/charset
 - name: golang.org/x/sys
   version: 478fcf54317e52ab69f40bb4c7a1520288d7f7ea
   subpackages:
   - unix
+- name: golang.org/x/text
+  version: 47a200a05c8b3fd1b698571caecbb68beb2611ec
+  subpackages:
+  - encoding
+  - encoding/charmap
+  - encoding/htmlindex
+  - encoding/internal
+  - encoding/internal/identifier
+  - encoding/japanese
+  - encoding/korean
+  - encoding/simplifiedchinese
+  - encoding/traditionalchinese
+  - encoding/unicode
+  - internal/tag
+  - internal/utf8internal
+  - language
+  - runes
+  - transform
 - name: google.golang.org/api
   version: 6ae94d3fbc17a6600999dc24c28bd01735a87b76
   subpackages:

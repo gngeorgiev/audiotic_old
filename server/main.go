@@ -9,6 +9,9 @@ import (
 	"gngeorgiev/audiotic/server/player"
 	"strings"
 
+	"os"
+	"os/signal"
+
 	"gopkg.in/gin-contrib/cors.v1"
 	"gopkg.in/gin-gonic/gin.v1"
 )
@@ -34,10 +37,19 @@ func main() {
 		p.GET("/play/:provider/:id", playHandler())
 		p.GET("/pause", pauseHandler())
 		p.GET("/resume", resumeHandler())
+		p.GET("/status", playerStatusHandler())
 	}
 
-	log.Fatal(r.Run(":8090"))
+	go func() {
+		log.Fatal(r.Run(":8090"))
+	}()
 
+	stopCh := make(chan os.Signal)
+	signal.Notify(stopCh, os.Interrupt)
+	<-stopCh
+	if err := player.Get().Release(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func autocompleteHandler() gin.HandlerFunc {
@@ -101,5 +113,17 @@ func resumeHandler() gin.HandlerFunc {
 		}
 
 		c.Status(http.StatusOK)
+	}
+}
+
+func playerStatusHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		status, err := api.Status()
+		if err != nil {
+			c.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		c.JSON(http.StatusOK, status)
 	}
 }

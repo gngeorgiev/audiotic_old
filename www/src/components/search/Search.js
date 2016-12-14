@@ -1,56 +1,44 @@
 import React, { Component } from 'react';
 import './Search.css';
 
-import Autosuggest from 'react-autosuggest';
 import { ServerUrl } from '../../constants';
 
 class Search extends Component {
     state = {
-        suggestions: [],
-        value: ''
+        currentSuggestion: '',
+        tracks: []
     }
 
-    onChange(event, { newValue }) {
-        this.setState({value: newValue});
-    }
-    
-    renderSuggestion(suggestion) {
-        return <span>{suggestion}</span>
-    }
-
-    getSuggestionValue(suggestion) {
-        return suggestion;
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.suggestion !== this.state.currentSuggestion) {
+            this.currentSuggestion = nextProps.suggestion;
+            this.search(nextProps.suggestion);
+        }
     }
 
-    onSuggestionsFetchRequested(text) {
-        fetch(`${ServerUrl}/meta/autocomplete/${text}`)
+    search(suggestion) {
+        suggestion = encodeURIComponent(suggestion)
+        fetch(`${ServerUrl}/meta/search/${suggestion}`)
             .then(response => response.json())
-            .then(suggestions => this.renderState({suggestions}))
+            .then(tracks => this.setState({tracks}))
             .catch(err => console.error(err));
     }
 
-    onSuggestionsClearRequested() {
-        this.setState({suggestions: []});
+    firePlayTrack(track) {
+        this.props.playTrack(track);
     }
 
     render() {
-        const { suggestions, value } = this.state;
-
         return (
-            <Autosuggest
-                inputProps={{
-                    placeholder: 'Search for tracks',
-                    onChange: this.onChange.bind(this),
-                    value
-                }}
-
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested.bind(this)}
-                getSuggestionValue={this.getSuggestionValue.bind(this)}
-                renderSuggestion={this.renderSuggestion.bind(this)}
-            />  
-        );
+            <div>
+                {this.state.tracks.map((t, i) => (
+                    <div key={i} className="search-item" onClick={() => this.firePlayTrack(t)}>
+                        <img width="100" height="100" alt="thumbnail" src={t.thumbnail} />
+                        <span>{t.title}</span>
+                    </div>
+                ))}
+            </div>
+        )
     }
 }
 

@@ -18,7 +18,7 @@ func Play(providerName, id string) error {
 		return err
 	}
 
-	if err := player.Get().Play(track.StreamUrl); err != nil {
+	if err := player.Get().Play(track.StreamUrl, track.Title, track.Thumbnail, track.Duration); err != nil {
 		return err
 	}
 
