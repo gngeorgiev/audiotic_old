@@ -1,9 +1,12 @@
 package api
 
 import (
+	"fmt"
 	"gngeorgiev/audiotic/server/player"
 	"gngeorgiev/audiotic/server/providers"
 	"strings"
+
+	"github.com/go-errors/errors"
 )
 
 func Play(providerName, id string) error {
@@ -11,6 +14,10 @@ func Play(providerName, id string) error {
 		provider := p.(providers.Provider)
 		return strings.ToLower(provider.GetName()) == providerName
 	})
+
+	if p == nil {
+		return errors.New(fmt.Sprintf("Unknown provider - %s", providerName))
+	}
 
 	provider := p.(providers.Provider)
 	track, err := provider.Resolve(id)

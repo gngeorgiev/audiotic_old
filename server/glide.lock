@@ -1,12 +1,12 @@
-hash: d61ae913e20bfab0b288468616eecfacae5aeae7f60d9d34b54ffd78031a726d
-updated: 2016-12-14T19:03:18.915692572+02:00
+hash: f1e5177c01cee952c7b851714a9bbc08ecbede332f4ddb6f8df655edaa716eee
+updated: 2016-12-21T00:50:01.983256598+02:00
 imports:
+- name: github.com/adrg/libvlc-go
+  version: c84c9dc2c38d96dcf76e24afcd1b7e241e44d44c
 - name: github.com/andybalholm/cascadia
   version: 196d48ce4ae8cf1c8f87088d2884eca214240887
-- name: github.com/basgys/goxml2json
-  version: 27ab359192c4f7d1a18521e2a40dcf21b39291eb
 - name: github.com/ddliu/go-httpclient
-  version: 7a5db79c2f4120d8a8cb58f2b9136e7a48fdfc65
+  version: 6dc3c81f67fe0727278fc53e6b65e8423c6e3a23
 - name: github.com/gin-gonic/gin
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
   subpackages:
@@ -18,6 +18,8 @@ imports:
   version: 2402d76f3d41f928c7902a765dfc872356dd3aad
   subpackages:
   - proto
+- name: github.com/gorilla/websocket
+  version: 1f512fc3f05332ba7117626cdfb4e07474e58e60
 - name: github.com/kr/pty
   version: ce7fa45920dc37a92de8377972e52bc55ffa8d57
 - name: github.com/manucorporat/sse
@@ -27,9 +29,9 @@ imports:
 - name: github.com/otium/ytdl
   version: 84abf685f7bd7f78afc8090b1c2cbdcd99f1e5ce
 - name: github.com/PuerkitoBio/goquery
-  version: 152b1a2c8f5d0340f658bb656032a39b94e52958
+  version: 56a198aba89cdf7a612e6c762eff9d788b9f2dae
 - name: github.com/Sirupsen/logrus
-  version: 881bee4e20a5d11a6a88a5667c6f292072ac1963
+  version: d26492970760ca5d33129d2d799e34be5c4782eb
 - name: golang.org/x/net
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
@@ -37,31 +39,16 @@ imports:
   - context/ctxhttp
   - html
   - html/atom
-  - html/charset
 - name: golang.org/x/sys
-  version: 478fcf54317e52ab69f40bb4c7a1520288d7f7ea
+  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: 47a200a05c8b3fd1b698571caecbb68beb2611ec
+  version: a49bea13b776691cb1b49873e5d8df96ec74831a
   subpackages:
   - encoding
-  - encoding/charmap
-  - encoding/htmlindex
-  - encoding/internal
-  - encoding/internal/identifier
-  - encoding/japanese
-  - encoding/korean
-  - encoding/simplifiedchinese
-  - encoding/traditionalchinese
-  - encoding/unicode
-  - internal/tag
-  - internal/utf8internal
-  - language
-  - runes
-  - transform
 - name: google.golang.org/api
-  version: 6ae94d3fbc17a6600999dc24c28bd01735a87b76
+  version: 55146ba61254fdb1c26d65ff3c04bc1611ad73fb
   subpackages:
   - gensupport
   - googleapi
@@ -74,6 +61,10 @@ imports:
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
+- name: gopkg.in/igm/sockjs-go.v2
+  version: d276e9ffe5cc5c271b81198cc77a2adf6c4482d2
+  subpackages:
+  - sockjs
 - name: gopkg.in/yaml.v2
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports: []

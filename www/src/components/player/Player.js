@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import './Player.css';
 
 import { Button } from 'react-bootstrap';
-import { ServerUrl } from '../../constants';
+import { ServerUrl, DefaultThumbnail } from '../../constants';
+import SockJS from 'sockjs-client'
+import 'rc-slider/assets/index.css';
+import Slider from 'rc-slider';
 
 class Player extends Component {
+    socket = null;
+
     state = {
         track: {},
         status: {
@@ -13,13 +18,16 @@ class Player extends Component {
             name: '',
             state: 'stopped',
             thumbnail: '',
-        }
+        },
+        volume: 100
     }
 
     componentDidMount() {
-        setInterval(() => {
-            this.updatePlayer();
-        }, 1000);
+        this.connectToSocket();
+    }
+
+    componentWillUnmount() {
+        this.onSocketDisconnected();
     }
 
     componentWillReceiveProps({ track }) {
@@ -29,13 +37,30 @@ class Player extends Component {
         }
     }
 
+    connectToSocket() {
+        this.socket = new SockJS(`${ServerUrl}/player/updates`);
+        this.socket.onmessage = ({ data }) => {
+            const status = JSON.parse(data);
+            this.updatePlayer(status);
+        };
+        this.socket.onclose = () => {
+            this.onSocketDisconnected();
+            setTimeout(() => this.connectToSocket(), 100);
+        };
+    }
+
+    onSocketDisconnected() {
+        this.socket.onmessage = null;
+        this.socket = null;
+    }
+
     renderPlayButton() {
         let className = 'col-md-1 fa ';
         const isPlaying = this.state.status.state === 'playing' 
         if (isPlaying) {
-            className += 'fa-pause-circle';
+            className += 'fa-pause';
         } else {
-            className += 'fa-play-circle';
+            className += 'fa-play';
         }
 
         return <Button className={className} onClick={() => {
@@ -47,29 +72,30 @@ class Player extends Component {
         }} />
     }
 
-    updatePlayer() {
-        fetch(`${ServerUrl}/player/status`)
-            .then(response => response.json())
-            .then(status => this.setState({
-                status: {
-                    name: status.name,
-                    state: status.state,
-                    time: +status.time,
-                    length: +status.length
-                }    
-            }))
-            .catch(err => console.error(err))
+    updatePlayer(status) {
+        this.setState({
+            status: {
+                name: status.name,
+                state: status.state,
+                time: +status.time,
+                length: +status.length,
+                thumbnail: status.thumbnail
+            }    
+        });
     }
 
     play(track) {
         fetch(`${ServerUrl}/player/play/${track.provider}/${track.id}`)
-            .then(() => this.setState({playing: true}))
             .catch(err => console.error(err));
     }
 
     pause() {
         fetch(`${ServerUrl}/player/pause`)
-            .then(() => this.setState({playing: false}))
+            .catch(err => console.error(err));
+    }
+
+    stop() {
+        fetch(`${ServerUrl}/player/stop`)
             .catch(err => console.error(err));
     }
 
@@ -79,17 +105,35 @@ class Player extends Component {
             .catch(err => console.error(err));
     }
 
+    seek(time) {
+        fetch(`${ServerUrl}/player/seek/${time}`)
+            .catch(err => console.error(err));
+    }
+
     render() {
         return (
-            <div className="player">
-                {
-                    this.state.status.thumbnail !== '' ? 
-                        <div></div> :
-                        <img className="thumbnail" alt="thumbnail" src={this.state.status.thumbnail} /> 
-                }
+            <div className="player" style={{
+                backgroundImage: this.state.status.thumbnail   
+            }}>
+                <img className="thumbnail" alt="thumbnail" src={this.state.status.thumbnail || DefaultThumbnail} />
                 <h4>{this.state.status.name}</h4>
+                <div className="row buttons-row">
+                    <div className="col-md-4 col-md-offset-4">
+                        {this.renderPlayButton()}
+                        <Button className="col-md-1 fa fa-stop" onClick={this.stop.bind(this)} />
+                    </div>
+                </div>
                 <div className="row">
-                    {this.renderPlayButton()}
+                    <div className="col-md-4 col-md-offset-4">
+                        <Slider
+                            className="seek-slider"
+                            value={this.state.status.time} 
+                            defaultValue={0} 
+                            min={0} 
+                            max={100} 
+                            onAfterChange={this.seek.bind(this)} 
+                        />
+                    </div>
                 </div>
             </div>
         );

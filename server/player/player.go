@@ -3,28 +3,13 @@ package player
 import (
 	"sync"
 
-	"os/exec"
-
-	"fmt"
-	"strings"
-
-	"log"
-	"net/url"
-	"os"
 	"time"
-
-	"io/ioutil"
-
-	"encoding/base64"
-
-	"bytes"
-
-	"encoding/json"
 
 	"strconv"
 
-	xj "github.com/basgys/goxml2json"
-	"github.com/ddliu/go-httpclient"
+	"log"
+
+	"github.com/adrg/libvlc-go"
 	"github.com/go-errors/errors"
 )
 
@@ -33,140 +18,62 @@ type VlcHttpArgument struct {
 	Name, Value string
 }
 
-type VlcHttpPlayer struct {
-	httpAddress, httpPort, httpPassword string
+type VlcPlayer struct {
+	player *vlc.Player
 
-	authorizationHeader string
-
-	source, name, state, thumbnail string
-	duration, time                 int
-	statsMutex                     sync.Mutex
-
-	arguments []string
-
-	isPlaying      bool
-	isPlayingMutex sync.Mutex
+	source, name, thumbnail string
+	duration                int
+	statsMutex              sync.Mutex
 
 	startedPlayingChan chan struct{}
 	stoppedPlayingChah chan struct{}
 	pausedPlayingChan  chan struct{}
 	releaseChan        chan struct{}
 
-	process *os.Process
+	onUpdatedChansMutex sync.Mutex
+	onUpdatedChans      []chan struct{}
 }
 
 var (
 	oncePlayer sync.Once
-	player     *VlcHttpPlayer
+	player     *VlcPlayer
 )
 
-const (
-	VlcCommandPlay   = VlcHttpCommand("in_play")
-	VlcCommandPause  = VlcHttpCommand("pl_pause")
-	VlcCommandResume = VlcHttpCommand("pl_play")
-	VlcCommandStop   = VlcHttpCommand("pl_stop")
-	VlcCommandStatus = VlcHttpCommand("status")
-)
+func (v *VlcPlayer) init() error {
+	if err := vlc.Init("--no-video", "--quiet"); err != nil {
+		log.Fatal(err)
+	}
 
-func (v *VlcHttpPlayer) init() error {
-	c := exec.Command("vlc", v.arguments...)
-	if err := c.Start(); err != nil {
+	player, err := vlc.NewPlayer()
+	if err != nil {
 		return err
 	}
+
+	v.player = player
 
 	v.startedPlayingChan = make(chan struct{})
 	v.stoppedPlayingChah = make(chan struct{})
 	v.pausedPlayingChan = make(chan struct{})
 	v.releaseChan = make(chan struct{})
-	v.state = "stopped"
-
-	v.process = c.Process
-	httpInterfaceReadyChan := make(chan error)
-	go func() {
-		max := 20
-		for i := 0; i < max; i++ {
-			_, err := httpclient.Get(v.urlBase(), nil)
-			if err != nil && i >= max-1 {
-				httpInterfaceReadyChan <- err
-			} else if err == nil {
-				break
-			}
-
-			time.Sleep(1 * time.Second)
-		}
-
-		httpInterfaceReadyChan <- nil
-	}()
+	v.onUpdatedChans = make([]chan struct{}, 0)
 
 	go v.listenEvents()
-
-	authBytes := []byte(fmt.Sprintf(":%s", v.httpPassword))
-	authBase64 := base64.StdEncoding.EncodeToString(authBytes)
-	v.authorizationHeader = fmt.Sprintf("Basic %s", authBase64)
-
-	return <-httpInterfaceReadyChan
+	return nil
+}
+func (v *VlcPlayer) IsPlaying() bool {
+	return v.player.IsPlaying()
 }
 
-func (v *VlcHttpPlayer) urlBase() string {
-	return fmt.Sprintf("http://%s/requests/status.xml", v.httpAddress+v.httpPort)
-}
-
-func (v *VlcHttpPlayer) url(command VlcHttpCommand, args ...VlcHttpArgument) string {
-	if command == VlcCommandStatus {
-		return v.urlBase()
-	}
-
-	u, _ := url.Parse(v.urlBase())
-	q := u.Query()
-	q.Set("command", string(command))
-
-	for _, arg := range args {
-		q.Set(arg.Name, arg.Value)
-	}
-
-	u.RawQuery = q.Encode()
-	return u.String()
-}
-
-func (v *VlcHttpPlayer) executeRequest(url string) (*httpclient.Response, error) {
-	return httpclient.
-		WithHeader("Authorization", v.authorizationHeader).
-		Get(url, nil)
-}
-
-func (v *VlcHttpPlayer) execCommand(command VlcHttpCommand, args ...VlcHttpArgument) error {
-	commandUrl := v.url(command, args...)
-	_, err := v.executeRequest(commandUrl)
-	return err
-}
-
-func (v *VlcHttpPlayer) execCommandResponse(command VlcHttpCommand, args ...VlcHttpArgument) ([]byte, error) {
-	commandUrl := v.url(command, args...)
-	r, err := v.executeRequest(commandUrl)
-	if err != nil {
-		return nil, err
-	}
-
-	defer r.Body.Close()
-	return ioutil.ReadAll(r.Body)
-}
-
-func (v *VlcHttpPlayer) IsPlaying() bool {
-	v.isPlayingMutex.Lock()
-	defer v.isPlayingMutex.Unlock()
-	return v.isPlaying
-}
-
-func (v *VlcHttpPlayer) Resume() error {
+func (v *VlcPlayer) Resume() error {
 	if !v.IsPlaying() {
 		v.notifyStartPlaying()
-		return v.execCommand(VlcCommandResume)
+		return v.player.SetPause(false)
 	}
 
 	return nil
 }
 
-func (v *VlcHttpPlayer) listenEvents() {
+func (v *VlcPlayer) listenEvents() {
 	t := time.NewTicker(100 * time.Millisecond)
 	for {
 		select {
@@ -175,23 +82,13 @@ func (v *VlcHttpPlayer) listenEvents() {
 				continue
 			}
 
-			v.time += 100
-			if v.time/1000 >= v.duration {
-				go v.notifyStopPlaying()
-			}
+			v.notifyUpdated()
 		case <-v.startedPlayingChan:
-			v.isPlaying = true
-			if v.state != "paused" {
-				v.time = 0
-			}
-			v.state = "playing"
+			v.notifyUpdated()
 		case <-v.stoppedPlayingChah:
-			v.state = "stopped"
-			v.isPlaying = false
-			v.time = 0
+			v.notifyUpdated()
 		case <-v.pausedPlayingChan:
-			v.isPlaying = false
-			v.state = "paused"
+			v.notifyUpdated()
 		case <-v.releaseChan:
 			t.Stop()
 			return
@@ -199,29 +96,52 @@ func (v *VlcHttpPlayer) listenEvents() {
 	}
 }
 
-func (v *VlcHttpPlayer) notifyStartPlaying() {
+func (v *VlcPlayer) notifyStartPlaying() {
 	v.startedPlayingChan <- struct{}{}
 }
 
-func (v *VlcHttpPlayer) notifyStopPlaying() {
+func (v *VlcPlayer) notifyStopPlaying() {
 	v.stoppedPlayingChah <- struct{}{}
 }
 
-func (v *VlcHttpPlayer) notifyPausedPlaying() {
+func (v *VlcPlayer) notifyPausedPlaying() {
 	v.pausedPlayingChan <- struct{}{}
 }
 
-func (v *VlcHttpPlayer) Play(source, name, thumbnail string, duration int) error {
+func (v *VlcPlayer) notifyUpdated() {
+	v.onUpdatedChansMutex.Lock()
+	defer v.onUpdatedChansMutex.Unlock()
+
+	payload := struct{}{}
+	for _, ch := range v.onUpdatedChans {
+		ch <- payload
+	}
+}
+
+func (v *VlcPlayer) OnUpdated(ch chan struct{}) {
+	v.onUpdatedChansMutex.Lock()
+	defer v.onUpdatedChansMutex.Unlock()
+
+	v.onUpdatedChans = append(v.onUpdatedChans, ch)
+}
+
+func (v *VlcPlayer) Play(source, name, thumbnail string, duration int) error {
 	v.statsMutex.Lock()
 	v.source = source
 	v.name = name
 	v.duration = duration
+	v.thumbnail = thumbnail
 	v.statsMutex.Unlock()
 
-	if err := v.execCommand(VlcCommandPlay, VlcHttpArgument{
-		Name:  "input",
-		Value: source,
-	}); err != nil {
+	if v.IsPlaying() {
+		v.Stop()
+	}
+
+	if err := v.player.SetMedia(source, false); err != nil {
+		return err
+	}
+
+	if err := v.player.Play(); err != nil {
 		return err
 	}
 
@@ -236,8 +156,12 @@ func (v *VlcHttpPlayer) Play(source, name, thumbnail string, duration int) error
 				v.Stop()
 				return
 			default:
-				s, _ := v.statusInternal()
-				if s.Root.State == "playing" && s.Root.Duration != "0" {
+				state, err := v.player.MediaState()
+				if err != nil {
+					readyChan <- err
+				}
+
+				if state == vlc.MediaPlaying {
 					v.notifyStartPlaying()
 					t.Stop()
 					readyChan <- nil
@@ -252,96 +176,105 @@ func (v *VlcHttpPlayer) Play(source, name, thumbnail string, duration int) error
 	return <-readyChan
 }
 
-func (v *VlcHttpPlayer) Pause() error {
+func (v *VlcPlayer) Pause() error {
 	if v.IsPlaying() {
 		v.notifyPausedPlaying()
-		return v.execCommand(VlcCommandPause)
+		return v.player.SetPause(true)
 	}
 
 	return nil
 }
 
-func (v *VlcHttpPlayer) Stop() error {
+func (v *VlcPlayer) Stop() error {
 	if v.IsPlaying() {
 		v.notifyStopPlaying()
-		return v.execCommand(VlcCommandStop)
+		return v.player.Stop()
 	}
 
 	return nil
 }
 
-func (v *VlcHttpPlayer) Release() error {
-	v.Stop()
-	v.releaseChan <- struct{}{}
-	return v.process.Kill()
+func (v *VlcPlayer) Seek(time int) error {
+	return v.player.SetMediaTime(time)
 }
 
-type VlcStatusRoot struct {
+func (v *VlcPlayer) Release() error {
+	defer func() {
+		v.releaseChan <- struct{}{}
+	}()
+
+	if err := v.Stop(); err != nil {
+		return err
+	}
+	if v.player != nil {
+		if err := v.player.Stop(); err != nil {
+			return err
+		}
+	}
+	if err := vlc.Release(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+type VlcStatus struct {
 	Duration  string `json:"length"`
-	Time      string `json:"time"`
+	Time      int    `json:"time"`
 	Name      string `json:"name"`
 	Source    string `json:"source"`
 	State     string `json:"state"`
 	Thumbnail string `json:"thumbnail"`
 }
 
-type VlcStatus struct {
-	Root *VlcStatusRoot `json:"root"`
+func mediaStateToString(st vlc.MediaState) string {
+	switch st {
+	case vlc.MediaPlaying:
+		return "playing"
+	case vlc.MediaBuffering:
+		return "buffering"
+	case vlc.MediaEnded:
+		return "ended"
+	case vlc.MediaError:
+		return "error"
+	case vlc.MediaIdle:
+		return "idle"
+	case vlc.MediaOpening:
+		return "openning"
+	case vlc.MediaPaused:
+		return "paused"
+	case vlc.MediaStopped:
+		return "stopped"
+	default:
+		return "unknown"
+	}
 }
 
-func (v *VlcHttpPlayer) statusInternal() (*VlcStatus, error) {
-	r, err := v.execCommandResponse(VlcCommandStatus)
+func (v *VlcPlayer) Status() (*VlcStatus, error) {
+	status := &VlcStatus{}
+	status.Name = v.name
+	status.Duration = strconv.Itoa(v.duration)
+	status.Source = v.source
+	t, err := v.player.MediaTime()
 	if err != nil {
 		return nil, err
 	}
 
-	xml := bytes.NewReader(r)
-	j, err := xj.Convert(xml)
+	status.Time = t
+	s, err := v.player.MediaState()
 	if err != nil {
 		return nil, err
 	}
 
-	var status *VlcStatus
-	if err := json.Unmarshal(j.Bytes(), &status); err != nil {
-		return nil, err
-	}
-
-	return status, nil
-}
-
-func (v *VlcHttpPlayer) Status() (*VlcStatus, error) {
-	status := &VlcStatus{Root: &VlcStatusRoot{}}
-	status.Root.Name = v.name
-	status.Root.Duration = strconv.Itoa(v.duration)
-	status.Root.Source = v.source
-	status.Root.Time = strconv.Itoa(v.time / 1000)
-	status.Root.State = v.state
-	status.Root.Thumbnail = v.thumbnail
+	status.State = mediaStateToString(s)
+	status.Thumbnail = v.thumbnail
 
 	return status, nil
 }
 
 func Init() error {
 	oncePlayer.Do(func() {
-		httpAddress := "127.0.0.1"
-		httpPort := ":8091"
-		httpPassword := "rsd"
-
-		player = &VlcHttpPlayer{
-			httpAddress:  httpAddress,
-			httpPort:     httpPort,
-			httpPassword: httpPassword,
-			arguments: []string{
-				"--no-video",
-				"--quiet",
-				"--qt-start-minimized",
-				"-I http",
-				fmt.Sprintf("--http-port=%s", strings.Replace(httpPort, ":", "", 1)),
-				fmt.Sprintf("--http-host=%s", httpAddress),
-				fmt.Sprintf("--http-password=%s", httpPassword),
-			},
-		}
-
+		player = &VlcPlayer{}
 		if err := player.init(); err != nil {
 			log.Fatal(err)
 		}
@@ -350,6 +283,6 @@ func Init() error {
 	return nil
 }
 
-func Get() *VlcHttpPlayer {
+func Get() *VlcPlayer {
 	return player
 }

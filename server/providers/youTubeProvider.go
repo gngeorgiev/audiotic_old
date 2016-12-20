@@ -84,7 +84,14 @@ func (y *YouTubeProvider) getSpecificResults(kind string, items []*youtube.Searc
 }
 
 func (y *YouTubeProvider) Search(q string) ([]models.Track, error) {
-	call := y.service.Search.List("id,snippet").Q(q).SafeSearch("none").MaxResults(25)
+	call := y.service.Search.
+		List("id,snippet").
+		Q(q).
+		SafeSearch("none").
+		VideoCategoryId("10").
+		Type("video").
+		MaxResults(25)
+
 	r, err := call.Do()
 	if err != nil {
 		return nil, err
@@ -93,11 +100,7 @@ func (y *YouTubeProvider) Search(q string) ([]models.Track, error) {
 	videos := y.getSpecificResults("youtube#video", r.Items)
 	results := make([]models.Track, len(videos))
 	for i, item := range videos {
-		if item.Id.Kind != "youtube#video" {
-			continue
-		}
-
-		track := &models.Track{
+		track := models.Track{
 			Id:        item.Id.VideoId,
 			Provider:  y.GetName(),
 			Thumbnail: y.getThumbnailUrl(item.Snippet.Thumbnails),
@@ -110,7 +113,7 @@ func (y *YouTubeProvider) Search(q string) ([]models.Track, error) {
 			track.Next = videos[0].Id.VideoId
 		}
 
-		results[i] = *track
+		results[i] = track
 	}
 
 	return results, nil
@@ -163,7 +166,7 @@ func (y *YouTubeProvider) getStreamUrl(id string) (string, error) {
 }
 
 func (y *YouTubeProvider) getNextVideo(id string) (string, error) {
-	res, err := y.GetService().Search.List("id").Type("video").SafeSearch("none").RelatedToVideoId(id).Do()
+	res, err := y.GetService().Search.List("id").Type("video").VideoCategoryId("10").SafeSearch("none").RelatedToVideoId(id).Do()
 	if err != nil {
 		return "", err
 	}

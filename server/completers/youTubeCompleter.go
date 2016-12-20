@@ -30,6 +30,7 @@ func (y *youtubeCompleter) Complete(query string) ([]interface{}, error) {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err

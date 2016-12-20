@@ -14,7 +14,7 @@ class Suggest extends Component {
         value: ''
     }
 
-    onChange(event, { newValue }) {
+    onChange(event, { newValue, method }) {
         this.setState({value: newValue});
     }
     
@@ -41,6 +41,12 @@ class Suggest extends Component {
         this.props.suggestionSelected(suggestionValue);
     }
 
+    handleSuggestKeyPressed({ key }) {
+        if (key === 'Enter') {
+            this.fireSuggestionSelected(null, {suggestionValue: this.state.value });
+        }    
+    }
+
     render() {
         const { suggestions, value } = this.state;
 
@@ -58,6 +64,11 @@ class Suggest extends Component {
                 getSuggestionValue={this.getSuggestionValue.bind(this)}
                 renderSuggestion={this.renderSuggestion.bind(this)}
                 onSuggestionSelected={this.fireSuggestionSelected.bind(this)}
+                renderInputComponent={inputProps => (
+                    <div>
+                        <input onKeyPress={this.handleSuggestKeyPressed.bind(this)} {...inputProps} />
+                    </div>
+                )}
             />  
         );
     }
