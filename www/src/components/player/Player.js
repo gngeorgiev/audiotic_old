@@ -18,6 +18,7 @@ class Player extends Component {
             name: '',
             state: 'stopped',
             thumbnail: '',
+            isPlaying: false
         },
         volume: 100
     }
@@ -56,7 +57,7 @@ class Player extends Component {
 
     renderPlayButton() {
         let className = 'col-md-1 fa ';
-        const isPlaying = this.state.status.state === 'playing' 
+        const isPlaying = this.state.status.isPlaying;
         if (isPlaying) {
             className += 'fa-pause';
         } else {
@@ -79,7 +80,8 @@ class Player extends Component {
                 state: status.state,
                 time: +status.time,
                 length: +status.length,
-                thumbnail: status.thumbnail
+                thumbnail: status.thumbnail,
+                isPlaying: status.isPlaying
             }    
         });
     }

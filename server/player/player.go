@@ -5,9 +5,9 @@ import (
 
 	"time"
 
-	"strconv"
-
 	"log"
+
+	"fmt"
 
 	"github.com/adrg/libvlc-go"
 	"github.com/go-errors/errors"
@@ -22,7 +22,7 @@ type VlcPlayer struct {
 	player *vlc.Player
 
 	source, name, thumbnail string
-	duration                int
+	duration, time          int
 	statsMutex              sync.Mutex
 
 	startedPlayingChan chan struct{}
@@ -50,6 +50,7 @@ func (v *VlcPlayer) init() error {
 	}
 
 	v.player = player
+	v.player.SetVolume(100)
 
 	v.startedPlayingChan = make(chan struct{})
 	v.stoppedPlayingChah = make(chan struct{})
@@ -74,18 +75,22 @@ func (v *VlcPlayer) Resume() error {
 }
 
 func (v *VlcPlayer) listenEvents() {
-	t := time.NewTicker(100 * time.Millisecond)
+	t := time.NewTicker(500 * time.Millisecond)
 	for {
 		select {
 		case <-t.C:
-			if !v.IsPlaying() {
-				continue
+			if v.IsPlaying() {
+				v.time += 500
+				if v.time/1000 > v.duration {
+					v.time = v.duration * 1000
+				}
 			}
 
 			v.notifyUpdated()
 		case <-v.startedPlayingChan:
 			v.notifyUpdated()
 		case <-v.stoppedPlayingChah:
+			v.time = 0
 			v.notifyUpdated()
 		case <-v.pausedPlayingChan:
 			v.notifyUpdated()
@@ -125,6 +130,38 @@ func (v *VlcPlayer) OnUpdated(ch chan struct{}) {
 	v.onUpdatedChans = append(v.onUpdatedChans, ch)
 }
 
+func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
+	readyChan := make(chan error)
+	go func() {
+		t := time.NewTimer(30 * time.Second)
+
+		for {
+			select {
+			case <-t.C:
+				readyChan <- errors.New(fmt.Sprintf("Timeout waiting for state %s", mediaStateToString(st)))
+				v.Stop()
+				return
+			default:
+				state, err := v.player.MediaState()
+				if err != nil {
+					readyChan <- err
+				}
+
+				if state == st {
+					v.notifyStartPlaying()
+					t.Stop()
+					readyChan <- nil
+					return
+				}
+			}
+
+			time.Sleep(500 * time.Millisecond)
+		}
+	}()
+
+	return readyChan
+}
+
 func (v *VlcPlayer) Play(source, name, thumbnail string, duration int) error {
 	v.statsMutex.Lock()
 	v.source = source
@@ -145,52 +182,45 @@ func (v *VlcPlayer) Play(source, name, thumbnail string, duration int) error {
 		return err
 	}
 
-	readyChan := make(chan error)
-	go func() {
-		t := time.NewTimer(30 * time.Second)
+	if err := <-v.waitForMediaState(vlc.MediaPlaying); err != nil {
+		return err
+	}
 
-		for {
-			select {
-			case <-t.C:
-				readyChan <- errors.New("Timeout playing track")
-				v.Stop()
-				return
-			default:
-				state, err := v.player.MediaState()
-				if err != nil {
-					readyChan <- err
-				}
-
-				if state == vlc.MediaPlaying {
-					v.notifyStartPlaying()
-					t.Stop()
-					readyChan <- nil
-					return
-				}
-			}
-
-			time.Sleep(500 * time.Millisecond)
-		}
-	}()
-
-	return <-readyChan
+	v.notifyStartPlaying()
+	return nil
 }
 
 func (v *VlcPlayer) Pause() error {
 	if v.IsPlaying() {
+		if err := v.player.SetPause(true); err != nil {
+			return err
+		}
+
+		if err := <-v.waitForMediaState(vlc.MediaPaused); err != nil {
+			return err
+		}
+
 		v.notifyPausedPlaying()
-		return v.player.SetPause(true)
+		return nil
 	}
 
 	return nil
 }
 
 func (v *VlcPlayer) Stop() error {
-	if v.IsPlaying() {
-		v.notifyStopPlaying()
-		return v.player.Stop()
+	if !v.IsPlaying() {
+		return nil
 	}
 
+	if err := v.player.SetMediaTime(0); err != nil {
+		return err
+	}
+
+	if err := v.Pause(); err != nil {
+		return err
+	}
+
+	v.notifyStopPlaying()
 	return nil
 }
 
@@ -219,12 +249,13 @@ func (v *VlcPlayer) Release() error {
 }
 
 type VlcStatus struct {
-	Duration  string `json:"length"`
+	Duration  int    `json:"length"`
 	Time      int    `json:"time"`
 	Name      string `json:"name"`
 	Source    string `json:"source"`
 	State     string `json:"state"`
 	Thumbnail string `json:"thumbnail"`
+	IsPlaying bool   `json:"isPlaying"`
 }
 
 func mediaStateToString(st vlc.MediaState) string {
@@ -253,19 +284,15 @@ func mediaStateToString(st vlc.MediaState) string {
 func (v *VlcPlayer) Status() (*VlcStatus, error) {
 	status := &VlcStatus{}
 	status.Name = v.name
-	status.Duration = strconv.Itoa(v.duration)
+	status.Duration = v.duration
 	status.Source = v.source
-	t, err := v.player.MediaTime()
-	if err != nil {
-		return nil, err
-	}
-
-	status.Time = t
+	status.Time = v.time / 1000
 	s, err := v.player.MediaState()
 	if err != nil {
 		return nil, err
 	}
 
+	status.IsPlaying = v.IsPlaying()
 	status.State = mediaStateToString(s)
 	status.Thumbnail = v.thumbnail
 
