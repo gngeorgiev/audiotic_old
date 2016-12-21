@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './Player.css';
 
-import { Button } from 'react-bootstrap';
 import { ServerUrl, DefaultThumbnail } from '../../constants';
 import SockJS from 'sockjs-client'
-import 'rc-slider/assets/index.css';
-import Slider from 'rc-slider';
+
+import Button from 'react-md/lib/Buttons/Button';
+import FontIcon from 'react-md/lib/FontIcons';
 
 class Player extends Component {
     socket = null;
@@ -56,21 +56,29 @@ class Player extends Component {
     }
 
     renderPlayButton() {
-        let className = 'col-md-1 fa ';
         const isPlaying = this.state.status.isPlaying;
+        let iconClassName = 'fa ';
         if (isPlaying) {
-            className += 'fa-pause';
+            iconClassName += 'fa-pause';
         } else {
-            className += 'fa-play';
+            iconClassName += 'fa-play';
         }
 
-        return <Button className={className} onClick={() => {
+        const playButtonClick = () => {
             if (isPlaying) {
                 this.pause();
             } else {
                 this.resume();
             }
-        }} />
+        };
+
+        return <Button 
+            flat
+            className="play-button"
+            onClick={playButtonClick}
+        >
+            <FontIcon iconClassName={iconClassName} />
+        </Button>
     }
 
     updatePlayer(status) {
@@ -114,30 +122,19 @@ class Player extends Component {
 
     render() {
         return (
-            <div className="player" style={{
-                backgroundImage: this.state.status.thumbnail   
-            }}>
-                <img className="thumbnail" alt="thumbnail" src={this.state.status.thumbnail || DefaultThumbnail} />
-                <h4>{this.state.status.name}</h4>
-                <div className="row buttons-row">
-                    <div className="col-md-4 col-md-offset-4">
-                        {this.renderPlayButton()}
-                        <Button className="col-md-1 fa fa-stop" onClick={this.stop.bind(this)} />
-                    </div>
-                </div>
+            <footer>
                 <div className="row">
-                    <div className="col-md-4 col-md-offset-4">
-                        <Slider
-                            className="seek-slider"
-                            value={this.state.status.time} 
-                            defaultValue={0} 
-                            min={0} 
-                            max={100} 
-                            onAfterChange={this.seek.bind(this)} 
-                        />
+                    <div className="col-xs-3 player-item">
+                        <img className="thumbnail" alt="thumbnail" src={this.state.status.thumbnail || DefaultThumbnail} />
+                    </div>
+                    <div className="col-xs-7 player-item heading-container">
+                        <h2 className="title">{this.state.status.name || 'Play something'}</h2>
+                    </div>
+                    <div className="col-xs-2 player-item">
+                        {this.renderPlayButton()}
                     </div>
                 </div>
-            </div>
+            </footer>
         );
     }
 }

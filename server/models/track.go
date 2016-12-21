@@ -8,5 +8,4 @@ type Track struct {
 	StreamUrl string `json:"streamUrl"`
 	Next      string `json:"next"`
 	Previous  string `json:"previous"`
-	Duration  int    `json:"duration"`
 }

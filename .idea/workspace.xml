@@ -2,9 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f5747bbb-26ab-4e50-95b6-2f8c09772f6c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__audiotic_.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__audiotic_.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/api/play.go" afterPath="$PROJECT_DIR$/server/api/play.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/models/track.go" afterPath="$PROJECT_DIR$/server/models/track.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/player/player.go" afterPath="$PROJECT_DIR$/server/player/player.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/providers/youTubeProvider.go" afterPath="$PROJECT_DIR$/server/providers/youTubeProvider.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/package.json" afterPath="$PROJECT_DIR$/www/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/public/index.html" afterPath="$PROJECT_DIR$/www/public/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/App.css" afterPath="$PROJECT_DIR$/www/src/App.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/App.js" afterPath="$PROJECT_DIR$/www/src/App.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/components/player/Player.css" afterPath="$PROJECT_DIR$/www/src/components/player/Player.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/components/player/Player.js" afterPath="$PROJECT_DIR$/www/src/components/player/Player.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/components/search/Search.css" afterPath="$PROJECT_DIR$/www/src/components/search/Search.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/components/search/Search.js" afterPath="$PROJECT_DIR$/www/src/components/search/Search.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/components/suggest/Suggest.css" afterPath="$PROJECT_DIR$/www/src/components/suggest/Suggest.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/src/components/suggest/Suggest.js" afterPath="$PROJECT_DIR$/www/src/components/suggest/Suggest.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,46 +36,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="164" column="0" lean-forward="false" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
+            <state relative-caret-position="181">
+              <caret line="33" column="52" lean-forward="false" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
               <folding>
                 <element signature="e#14#324#0" expanded="true" />
-                <marker date="1482274888987" expanded="true" signature="338:1183" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="377:394" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="573:675" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="703:985" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="998:1030" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1160:1181" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1228:1485" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1259:1483" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1375:1447" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1524:1775" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1555:1773" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1665:1737" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1812:2070" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1843:2068" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="1966:2038" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2108:2282" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2139:2280" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2178:2250" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2321:2496" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2352:2494" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2392:2464" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2541:2730" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2572:2728" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2620:2692" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2767:2940" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2798:2938" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="2836:2908" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="3230:3273" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="3328:3371" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="3468:3652" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="3566:3606" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="3797:3860" ph="{...}" />
-                <marker date="1482274888987" expanded="true" signature="3898:3970" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -70,7 +51,7 @@
       <file leaf-file-name="glide.lock" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/glide.lock">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
+            <state relative-caret-position="480">
               <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
               <folding />
             </state>
@@ -80,11 +61,9 @@
       <file leaf-file-name="status.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/api/status.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding>
-                <marker date="1482274139796" expanded="true" signature="98:131" ph="{...}" />
-              </folding>
+            <state relative-caret-position="100">
+              <caret line="5" column="24" lean-forward="false" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -92,18 +71,18 @@
       <file leaf-file-name="seek.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/api/seek.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
+            <state relative-caret-position="100">
               <caret line="5" column="33" lean-forward="false" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="player.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="player.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/player/player.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="220" column="5" lean-forward="true" selection-start-line="220" selection-start-column="5" selection-end-line="220" selection-end-column="5" />
+            <state relative-caret-position="121">
+              <caret line="73" column="14" lean-forward="false" selection-start-line="73" selection-start-column="14" selection-end-line="73" selection-end-column="14" />
               <folding>
                 <element signature="e#16#120#0" expanded="true" />
               </folding>
@@ -111,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="youTubeCompleter.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/completers/youTubeCompleter.go">
+      <file leaf-file-name="player.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/vendor/github.com/adrg/libvlc-go/player.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+            <state relative-caret-position="187">
+              <caret line="157" column="17" lean-forward="false" selection-start-line="157" selection-start-column="17" selection-end-line="157" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -124,21 +103,41 @@
       <file leaf-file-name="youTubeProvider.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/providers/youTubeProvider.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+            <state relative-caret-position="641">
+              <caret line="150" column="30" lean-forward="false" selection-start-line="150" selection-start-column="30" selection-end-line="150" selection-end-column="30" />
+              <folding>
+                <element signature="e#19#213#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="track.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/models/track.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pool.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/socketSessionsPool/pool.go">
+      <file leaf-file-name="video_info.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/vendor/github.com/otium/ytdl/video_info.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="56" column="67" lean-forward="false" selection-start-line="56" selection-start-column="67" selection-end-line="56" selection-end-column="67" />
-              <folding>
-                <element signature="e#28#91#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="229">
+              <caret line="97" column="53" lean-forward="false" selection-start-line="97" selection-start-column="53" selection-end-line="97" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="signature.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/vendor/github.com/otium/ytdl/signature.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -158,6 +157,8 @@
       <find>Stop(</find>
       <find>logrus</find>
       <find>seek</find>
+      <find>thumbnail</find>
+      <find>duration</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -179,26 +180,28 @@
         <option value="$PROJECT_DIR$/server/api/pause.go" />
         <option value="$PROJECT_DIR$/server/api/resume.go" />
         <option value="$PROJECT_DIR$/server/api/api.go" />
-        <option value="$PROJECT_DIR$/server/models/track.go" />
-        <option value="$PROJECT_DIR$/server/api/play.go" />
         <option value="$PROJECT_DIR$/server/stop.go" />
         <option value="$PROJECT_DIR$/server/api/stop.go" />
         <option value="$PROJECT_DIR$/server/vendor/gopkg.in/igm/sockjs-go.v2/sockjs/websocket.go" />
         <option value="$PROJECT_DIR$/server/socketSessionsPool/pool.go" />
         <option value="$PROJECT_DIR$/server/completers/youTubeCompleter.go" />
-        <option value="$PROJECT_DIR$/server/providers/youTubeProvider.go" />
         <option value="$PROJECT_DIR$/server/glide.yaml" />
         <option value="$PROJECT_DIR$/server/api/seek.go" />
         <option value="$PROJECT_DIR$/server/api/status.go" />
-        <option value="$PROJECT_DIR$/server/main.go" />
+        <option value="$PROJECT_DIR$/server/vendor/github.com/otium/ytdl/video_info.go" />
+        <option value="$PROJECT_DIR$/server/api/play.go" />
+        <option value="$PROJECT_DIR$/server/models/track.go" />
+        <option value="$PROJECT_DIR$/server/providers/youTubeProvider.go" />
         <option value="$PROJECT_DIR$/server/player/player.go" />
+        <option value="$PROJECT_DIR$/server/main.go" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1365" />
-    <option name="width" value="1922" />
-    <option name="height" value="1055" />
+    <option name="x" value="1917" />
+    <option name="y" value="125" />
+    <option name="width" value="1926" />
+    <option name="height" value="1078" />
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="1" />
@@ -218,7 +221,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -337,8 +340,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -348,6 +351,8 @@
     <property name="configurable.Module.libraries.is.expanded" value="false" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="ignore_missing_gitignore" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -618,7 +623,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1365" y="0" width="1922" height="1055" extended-state="6" />
+    <frame x="1917" y="125" width="1926" height="1078" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -630,24 +635,24 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39829606" sideWeight="0.5106496" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32800853" sideWeight="0.48935038" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299285" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.48935038" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890704" sideWeight="0.48935038" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18849841" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19009584" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890704" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39829606" sideWeight="0.48935038" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40563086" sideWeight="0.48935038" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -655,7 +660,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="53" />
+      <option name="time" value="57" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -664,20 +669,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../github.com/adrg/libvlc-go/vlc.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="38" column="5" lean-forward="false" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../github.com/adrg/libvlc-go/player.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="50" column="13" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/vendor/github.com/adrg/libvlc-go/vlc.go" />
     <entry file="file://$PROJECT_DIR$/server/componentContainer/container.go">
       <provider selected="true" editor-type-id="text-editor">
@@ -693,21 +684,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/os/file.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="198" column="15" lean-forward="false" selection-start-line="198" selection-start-column="15" selection-end-line="198" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/go/src/os/exec/exec.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5382">
-          <caret line="311" column="14" lean-forward="false" selection-start-line="311" selection-start-column="14" selection-end-line="311" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/os/file.go" />
+    <entry file="file:///usr/lib/go/src/os/exec/exec.go" />
     <entry file="file://$PROJECT_DIR$/server/vendor/github.com/ddliu/go-httpclient/util.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2070">
@@ -715,14 +693,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/net/url/url.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="672" column="14" lean-forward="false" selection-start-line="672" selection-start-column="14" selection-end-line="672" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/net/url/url.go" />
     <entry file="file://$PROJECT_DIR$/server/api/pause.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -755,47 +726,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/encoding/base64/base64.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="92" column="21" lean-forward="false" selection-start-line="92" selection-start-column="21" selection-end-line="92" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/vendor/github.com/basgys/goxml2json/converter.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="22" lean-forward="true" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/models/track.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="38" lean-forward="true" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/go/src/bytes/buffer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="43" column="17" lean-forward="false" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/go/src/unicode/digit.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/encoding/base64/base64.go" />
+    <entry file="file://$PROJECT_DIR$/server/vendor/github.com/basgys/goxml2json/converter.go" />
+    <entry file="file:///usr/lib/go/src/bytes/buffer.go" />
+    <entry file="file:///usr/lib/go/src/unicode/digit.go" />
     <entry file="file://$PROJECT_DIR$/server/vendor/google.golang.org/api/youtube/v3/youtube-gen.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="179">
@@ -803,25 +740,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/os/doc.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="33" column="18" lean-forward="false" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/go/src/os/exec_posix.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/os/doc.go" />
+    <entry file="file:///usr/lib/go/src/os/exec_posix.go" />
     <entry file="file://$PROJECT_DIR$/server/vendor/github.com/ddliu/go-httpclient/httpclient.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10584">
           <caret line="609" column="24" lean-forward="false" selection-start-line="609" selection-start-column="24" selection-end-line="609" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -847,13 +771,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/api/play.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/api/stop.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -876,28 +793,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/os/signal/signal.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1082">
-          <caret line="97" column="16" lean-forward="false" selection-start-line="97" selection-start-column="16" selection-end-line="97" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/os/signal/signal.go" />
     <entry file="file://$PROJECT_DIR$/server/vendor/gopkg.in/igm/sockjs-go.v2/sockjs/options.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-91">
           <caret line="53" column="4" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/runtime/panic.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="542" column="0" lean-forward="false" selection-start-line="542" selection-start-column="0" selection-end-line="542" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/runtime/panic.go" />
     <entry file="file://$PROJECT_DIR$/server/vendor/gopkg.in/igm/sockjs-go.v2/sockjs/sockjs.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -905,18 +809,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/strings/strings.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="636" column="5" lean-forward="false" selection-start-line="636" selection-start-column="5" selection-end-line="636" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/strings/strings.go" />
     <entry file="file://$PROJECT_DIR$/server/api/api.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
           <caret line="40" column="17" lean-forward="false" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -924,7 +821,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="30" lean-forward="false" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -932,32 +828,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/completers/youTubeCompleter.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
+        <state relative-caret-position="520">
           <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/io/io.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1728">
-          <caret line="98" column="4" lean-forward="false" selection-start-line="98" selection-start-column="4" selection-end-line="98" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///usr/lib/go/src/io/io.go" />
     <entry file="file://$PROJECT_DIR$/server/socketSessionsPool/pool.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
+        <state relative-caret-position="1000">
           <caret line="56" column="67" lean-forward="false" selection-start-line="56" selection-start-column="67" selection-end-line="56" selection-end-column="67" />
           <folding>
-            <element signature="e#28#91#0" expanded="true" />
+            <element signature="e#28#91#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -972,25 +860,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/api/seek.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
+        <state relative-caret-position="100">
           <caret line="5" column="33" lean-forward="false" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/api/status.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <marker date="1482274139796" expanded="true" signature="98:131" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/glide.lock">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
+        <state relative-caret-position="480">
           <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
           <folding />
         </state>
@@ -1000,86 +878,84 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="9" column="41" lean-forward="true" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
-          <folding>
-            <marker date="1482274201980" expanded="true" signature="36:719" ph="import: &lt;13 items&gt;" />
-            <marker date="1482274201980" expanded="true" signature="217:228" ph="github.co…-gonic/gin" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/go/src/time/time.go">
+    <entry file="file:///usr/lib/go/src/time/time.go" />
+    <entry file="file://$PROJECT_DIR$/server/api/status.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="448" column="4" lean-forward="false" selection-start-line="448" selection-start-column="4" selection-end-line="448" selection-end-column="4" />
+        <state relative-caret-position="100">
+          <caret line="5" column="24" lean-forward="false" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/vendor/github.com/otium/ytdl/signature.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/vendor/github.com/otium/ytdl/video_info.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="97" column="53" lean-forward="false" selection-start-line="97" selection-start-column="53" selection-end-line="97" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/api/play.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="27" column="77" lean-forward="true" selection-start-line="27" selection-start-column="77" selection-end-line="27" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/vendor/github.com/adrg/libvlc-go/player.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="157" column="17" lean-forward="false" selection-start-line="157" selection-start-column="17" selection-end-line="157" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/models/track.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/providers/youTubeProvider.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="164" column="0" lean-forward="false" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
+        <state relative-caret-position="641">
+          <caret line="150" column="30" lean-forward="false" selection-start-line="150" selection-start-column="30" selection-end-line="150" selection-end-column="30" />
           <folding>
-            <element signature="e#14#324#0" expanded="true" />
-            <marker date="1482274888987" expanded="true" signature="338:1183" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="377:394" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="573:675" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="703:985" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="998:1030" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1160:1181" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1228:1485" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1259:1483" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1375:1447" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1524:1775" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1555:1773" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1665:1737" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1812:2070" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1843:2068" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="1966:2038" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2108:2282" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2139:2280" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2178:2250" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2321:2496" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2352:2494" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2392:2464" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2541:2730" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2572:2728" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2620:2692" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2767:2940" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2798:2938" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="2836:2908" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="3230:3273" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="3328:3371" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="3468:3652" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="3566:3606" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="3797:3860" ph="{...}" />
-            <marker date="1482274888987" expanded="true" signature="3898:3970" ph="{...}" />
+            <element signature="e#19#213#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/vendor/github.com/adrg/libvlc-go/player.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="503">
-          <caret line="187" column="17" lean-forward="false" selection-start-line="187" selection-start-column="17" selection-end-line="187" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/player/player.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="220" column="5" lean-forward="true" selection-start-line="220" selection-start-column="5" selection-end-line="220" selection-end-column="5" />
+        <state relative-caret-position="121">
+          <caret line="73" column="14" lean-forward="false" selection-start-line="73" selection-start-column="14" selection-end-line="73" selection-end-column="14" />
           <folding>
             <element signature="e#16#120#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="33" column="52" lean-forward="false" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
+          <folding>
+            <element signature="e#14#324#0" expanded="true" />
           </folding>
         </state>
       </provider>

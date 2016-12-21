@@ -3,6 +3,11 @@ import './Search.css';
 
 import { ServerUrl } from '../../constants';
 
+import List from 'react-md/lib/Lists/List';
+import ListItem from 'react-md/lib/Lists/ListItem';
+import Avatar from 'react-md/lib/Avatars';
+import Subheader from 'react-md/lib/Subheaders';
+
 class Search extends Component {
     state = {
         currentSuggestion: '',
@@ -11,7 +16,9 @@ class Search extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.suggestion !== this.state.currentSuggestion) {
-            this.currentSuggestion = nextProps.suggestion;
+            this.setState({
+                currentSuggestion: nextProps.suggestion
+            });
             this.search(nextProps.suggestion);
         }
     }
@@ -30,13 +37,19 @@ class Search extends Component {
 
     render() {
         return (
-            <div>
-                {this.state.tracks.map((t, i) => (
-                    <div key={i} className="search-item" onClick={() => this.firePlayTrack(t)}>
-                        <img width="100" height="100" alt="thumbnail" src={t.thumbnail} />
-                        <span>{t.title}</span>
-                    </div>
-                ))}
+            <div className="search">
+                <List>
+                    <ListItem primaryText=""/>
+                    {this.state.currentSuggestion ? <Subheader primaryText={`Results for "${this.state.currentSuggestion}"`} /> : null}
+                    {this.state.tracks.map((t, i) => (
+                        <ListItem
+                            key={i}
+                            onClick={() => this.firePlayTrack(t)}
+                            leftAvatar={<Avatar src={t.thumbnail} alt="thumbnail" />}
+                            primaryText={t.title}
+                        />
+                    ))}
+                </List>
             </div>
         )
     }

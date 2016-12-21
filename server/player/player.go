@@ -75,22 +75,16 @@ func (v *VlcPlayer) Resume() error {
 }
 
 func (v *VlcPlayer) listenEvents() {
-	t := time.NewTicker(500 * time.Millisecond)
+	t := time.NewTicker(100 * time.Millisecond)
 	for {
 		select {
 		case <-t.C:
 			if v.IsPlaying() {
-				v.time += 500
-				if v.time/1000 > v.duration {
-					v.time = v.duration * 1000
-				}
+				v.notifyUpdated()
 			}
-
-			v.notifyUpdated()
 		case <-v.startedPlayingChan:
 			v.notifyUpdated()
 		case <-v.stoppedPlayingChah:
-			v.time = 0
 			v.notifyUpdated()
 		case <-v.pausedPlayingChan:
 			v.notifyUpdated()
@@ -145,10 +139,8 @@ func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
 				state, err := v.player.MediaState()
 				if err != nil {
 					readyChan <- err
-				}
-
-				if state == st {
-					v.notifyStartPlaying()
+					return
+				} else if state == st {
 					t.Stop()
 					readyChan <- nil
 					return
@@ -162,14 +154,7 @@ func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
 	return readyChan
 }
 
-func (v *VlcPlayer) Play(source, name, thumbnail string, duration int) error {
-	v.statsMutex.Lock()
-	v.source = source
-	v.name = name
-	v.duration = duration
-	v.thumbnail = thumbnail
-	v.statsMutex.Unlock()
-
+func (v *VlcPlayer) Play(source, name, thumbnail string) error {
 	if v.IsPlaying() {
 		v.Stop()
 	}
@@ -185,6 +170,18 @@ func (v *VlcPlayer) Play(source, name, thumbnail string, duration int) error {
 	if err := <-v.waitForMediaState(vlc.MediaPlaying); err != nil {
 		return err
 	}
+
+	d, err := v.player.MediaLength()
+	if err != nil {
+		return err
+	}
+
+	v.statsMutex.Lock()
+	v.source = source
+	v.name = name
+	v.thumbnail = thumbnail
+	v.duration = d / 1000
+	v.statsMutex.Unlock()
 
 	v.notifyStartPlaying()
 	return nil
@@ -286,7 +283,12 @@ func (v *VlcPlayer) Status() (*VlcStatus, error) {
 	status.Name = v.name
 	status.Duration = v.duration
 	status.Source = v.source
-	status.Time = v.time / 1000
+	t, err := v.player.MediaTime()
+	if err != nil {
+		return nil, err
+	}
+	status.Time = t / 1000
+
 	s, err := v.player.MediaState()
 	if err != nil {
 		return nil, err
