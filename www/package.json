@@ -8,6 +8,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "lodash": "^4.17.2",
+    "material-ui": "^0.16.5",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-addons-transition-group": "^15.4.1",
@@ -15,6 +16,7 @@
     "react-dom": "^15.4.1",
     "react-list-view": "^1.0.0",
     "react-md": "^1.0.0",
+    "react-tap-event-plugin": "^2.0.1",
     "sockjs-client": "^1.1.1",
     "webfontloader": "^1.6.27",
     "whatwg-fetch": "^2.0.1"

@@ -6,10 +6,12 @@ import SockJS from 'sockjs-client'
 
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
-import Slider from 'react-md/lib/Sliders';
+import Slider from 'material-ui/Slider';
 
 class Player extends Component {
     socket = null;
+    draggingSeek = false;
+    dragValue = 0;
 
     state = {
         track: {},
@@ -121,16 +123,28 @@ class Player extends Component {
             .catch(err => console.error(err));
     }
 
+    onSeek(time) {
+        if (this.draggingSeek) {
+            this.dragValue = time;
+        }
+    }
+
     render() {
         return (
             <footer>
                 <div className="row">
                     <Slider
                         className="seek" 
-                        min={0} 
-                        max={this.state.status.length} 
-                        step={1} 
-                        value={this.state.status.time} 
+                        min={0}
+                        max={this.state.status.length || 1} 
+                        value={this.state.status.time}
+                        onChange={this.onSeek.bind(this)}
+                        onMouseDown={() => this.draggingSeek = true}
+                        onDragStart={() => this.draggingSeek = true}
+                        onDragStop={() => {
+                            this.draggingSeek = false;
+                            this.seek(this.dragValue);
+                        }}
                     />
 
                     <div className="col-xs-3 player-item">
