@@ -7,11 +7,12 @@ import SockJS from 'sockjs-client'
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
 import Slider from 'material-ui/Slider';
+import { throttle } from 'lodash';
+
+const DefaultVolume = 100;
 
 class Player extends Component {
     socket = null;
-    draggingSeek = false;
-    dragValue = 0;
 
     state = {
         track: {},
@@ -21,9 +22,16 @@ class Player extends Component {
             name: '',
             state: 'stopped',
             thumbnail: '',
-            isPlaying: false
-        },
-        volume: 100
+            isPlaying: false,
+            volume: DefaultVolume
+        }
+    }
+
+    constructor() {
+        super();
+
+        this.throttleSeek = throttle(this.seek, 500);
+        this.throttleVolume = throttle(this.volume, 500);
     }
 
     componentDidMount() {
@@ -92,7 +100,8 @@ class Player extends Component {
                 time: +status.time,
                 length: +status.length,
                 thumbnail: status.thumbnail,
-                isPlaying: status.isPlaying
+                isPlaying: status.isPlaying,
+                volume: status.volume
             }    
         });
     }
@@ -123,41 +132,69 @@ class Player extends Component {
             .catch(err => console.error(err));
     }
 
-    onSeek(time) {
-        if (this.draggingSeek) {
-            this.dragValue = time;
+    volume(vol) {
+        fetch(`${ServerUrl}/player/volume/${vol}`)
+            .catch(err => console.error(err));
+    }
+
+    onSeek(ev, time) {
+        this.throttleSeek(Math.round(time));
+    }
+
+    renderVolumeIcon() {
+        let volumeIcon;
+        const volume = this.state.status.volume;
+        if (volume <= 0) {
+            volumeIcon = "fa-volume-off";
+        } else if (volume < 100) {
+            volumeIcon = "fa-volume-down";
+        } else {
+            volumeIcon = "fa-volume-up";
         }
+
+        return <FontIcon iconClassName={`fa ${volumeIcon}`}></FontIcon>
+    }
+
+    onChangeVolume(ev, volume) {
+        this.throttleVolume(Math.round(volume));
     }
 
     render() {
         return (
-            <footer>
-                <div className="row">
-                    <Slider
-                        className="seek" 
+            <div>
+                <div className="volume">
+                    <Slider 
                         min={0}
-                        max={this.state.status.length || 1} 
-                        value={this.state.status.time}
-                        onChange={this.onSeek.bind(this)}
-                        onMouseDown={() => this.draggingSeek = true}
-                        onDragStart={() => this.draggingSeek = true}
-                        onDragStop={() => {
-                            this.draggingSeek = false;
-                            this.seek(this.dragValue);
-                        }}
+                        max={200}
+                        defaultValue={DefaultVolume}
+                        value={this.state.status.volume}
+                        onChange={this.onChangeVolume.bind(this)}
+                        axis="y"
                     />
-
-                    <div className="col-xs-3 player-item">
-                        <img className="thumbnail" alt="thumbnail" src={this.state.status.thumbnail || DefaultThumbnail} />
-                    </div>
-                    <div className="col-xs-7 player-item heading-container">
-                        <h2 className="title">{this.state.status.name || 'Play something'}</h2>
-                    </div>
-                    <div className="col-xs-2 player-item">
-                        {this.renderPlayButton()}
-                    </div>
+                    {this.renderVolumeIcon()}
                 </div>
-            </footer>
+                <footer>
+                    <div className="row">
+                        <Slider
+                            className="seek" 
+                            min={0}
+                            max={this.state.status.length || 1} 
+                            value={this.state.status.time}
+                            onChange={this.onSeek.bind(this)}
+                        />
+
+                        <div className="col-xs-3 player-item">
+                            <img className="thumbnail" alt="thumbnail" src={this.state.status.thumbnail || DefaultThumbnail} />
+                        </div>
+                        <div className="col-xs-7 player-item heading-container">
+                            <h2 className="title">{this.state.status.name || 'Play something'}</h2>
+                        </div>
+                        <div className="col-xs-2 player-item">
+                            {this.renderPlayButton()}
+                        </div>
+                    </div>
+                </footer>
+            </div>
         );
     }
 }

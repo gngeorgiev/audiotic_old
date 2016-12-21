@@ -55,7 +55,7 @@ footer > div {
     margin: 0 auto;
 }
 
-.seek, .seek-container {
+.seek {
     position: absolute;
     top: -10px;
     left: 15px;
@@ -66,4 +66,17 @@ footer > div {
 .seek > div {
     width: 100%;
     margin: 0 !important;
+}
+
+.volume {
+    position: fixed;
+    right: 0;
+    top: 20vh;
+    height: 50vh;
+    width: 25px;
+}
+
+.volume > div {
+    height: 100%;
+    width: 100%;
 }

@@ -48,6 +48,7 @@ func main() {
 		p.GET("/stop", stopHandler())
 		p.GET("/status", playerStatusHandler())
 		p.GET("/seek/:time", seekHandler())
+		p.GET("/volume/:volume", volumeHandler())
 		p.GET("/updates/*info", playerUpdatesHandler())
 	}
 
@@ -199,6 +200,24 @@ func seekHandler() gin.HandlerFunc {
 
 		if err := api.Seek(t); err != nil {
 			c.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		c.Status(http.StatusOK)
+	}
+}
+
+func volumeHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		volume := c.Param("volume")
+		v, err := strconv.Atoi(volume)
+		if err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
+			return
+		}
+
+		if err := api.Volume(v); err != nil {
+			c.AbortWithError(http.StatusBadRequest, err)
 			return
 		}
 
