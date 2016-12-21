@@ -6,6 +6,7 @@ import SockJS from 'sockjs-client'
 
 import Button from 'react-md/lib/Buttons/Button';
 import FontIcon from 'react-md/lib/FontIcons';
+import Slider from 'react-md/lib/Sliders';
 
 class Player extends Component {
     socket = null;
@@ -124,6 +125,14 @@ class Player extends Component {
         return (
             <footer>
                 <div className="row">
+                    <Slider
+                        className="seek" 
+                        min={0} 
+                        max={this.state.status.length} 
+                        step={1} 
+                        value={this.state.status.time} 
+                    />
+
                     <div className="col-xs-3 player-item">
                         <img className="thumbnail" alt="thumbnail" src={this.state.status.thumbnail || DefaultThumbnail} />
                     </div>
