@@ -23,6 +23,8 @@ type VlcPlayer struct {
 
 	source, name, thumbnail string
 	duration, time, volume  int
+	state                   vlc.MediaState
+	isPlaying               bool
 	statsMutex              sync.Mutex
 
 	startedPlayingChan chan struct{}
@@ -52,6 +54,13 @@ func (v *VlcPlayer) init() error {
 	v.volume = 100
 
 	go v.listenEvents()
+	go func() {
+		for {
+			time.Sleep(1 * time.Second)
+			v.updateStatus()
+		}
+	}()
+
 	return nil
 }
 
@@ -61,17 +70,12 @@ func (v *VlcPlayer) createPlayer() (*vlc.Player, error) {
 		return nil, err
 	}
 
-	player.SetVolume(100)
+	player.SetVolume(v.volume)
 	return player, nil
 }
 
 func (v *VlcPlayer) IsPlaying() bool {
-	if v.player == nil {
-		return false
-	}
-
-	st, _ := v.player.MediaState()
-	return v.player.IsPlaying() && st == vlc.MediaPlaying
+	return v.isPlaying
 }
 
 func (v *VlcPlayer) Resume() error {
@@ -87,6 +91,38 @@ func (v *VlcPlayer) Resume() error {
 	return nil
 }
 
+func (v *VlcPlayer) updateStatus() {
+	if v.player == nil {
+		return
+	}
+
+	v.statsMutex.Lock()
+	t, err := v.player.MediaTime()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	v.time = t / 1000
+
+	st, err := v.player.MediaState()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	v.state = st
+
+	vol, err := v.player.Volume()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	v.volume = vol
+
+	v.isPlaying = v.player.IsPlaying() && v.state == vlc.MediaPlaying
+
+	v.statsMutex.Unlock()
+}
+
 func (v *VlcPlayer) listenEvents() {
 	t := time.NewTicker(500 * time.Millisecond)
 	for {
@@ -96,10 +132,13 @@ func (v *VlcPlayer) listenEvents() {
 				v.notifyUpdated()
 			}
 		case <-v.startedPlayingChan:
+			v.updateStatus()
 			v.notifyUpdated()
 		case <-v.stoppedPlayingChah:
+			v.updateStatus()
 			v.notifyUpdated()
 		case <-v.pausedPlayingChan:
+			v.updateStatus()
 			v.notifyUpdated()
 		case <-v.releaseChan:
 			t.Stop()
@@ -153,11 +192,8 @@ func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
 					continue
 				}
 
-				state, err := v.player.MediaState()
-				if err != nil {
-					readyChan <- err
-					return
-				} else if state == st {
+				state, _ := v.player.MediaState()
+				if state == st {
 					t.Stop()
 					readyChan <- nil
 					return
@@ -173,13 +209,9 @@ func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
 
 func (v *VlcPlayer) Play(source, name, thumbnail string) error {
 	if v.player != nil {
-		if err := v.player.Stop(); err != nil {
-			return err
-		}
-
-		if err := v.player.Release(); err != nil {
-			return err
-		}
+		v.player.Stop()
+		v.player.Release()
+		v.player = nil
 	}
 
 	player, err := v.createPlayer()
@@ -343,25 +375,10 @@ func (v *VlcPlayer) Status() (*VlcStatus, error) {
 	status.Name = v.name
 	status.Duration = v.duration
 	status.Source = v.source
-	t, err := v.player.MediaTime()
-	if err != nil {
-		return nil, err
-	}
-	status.Time = t / 1000
-
-	s, err := v.player.MediaState()
-	if err != nil {
-		return nil, err
-	}
-
-	vol, err := v.player.Volume()
-	if err != nil {
-		return nil, err
-	}
-	status.Volume = vol
-
+	status.Time = v.time
+	status.Volume = v.volume
+	status.State = mediaStateToString(v.state)
 	status.IsPlaying = v.IsPlaying()
-	status.State = mediaStateToString(s)
 	status.Thumbnail = v.thumbnail
 
 	return status, nil

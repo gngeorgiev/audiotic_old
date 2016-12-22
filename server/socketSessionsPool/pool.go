@@ -3,8 +3,6 @@ package socketSessionsPool
 import (
 	"sync"
 
-	"log"
-
 	"gopkg.in/igm/sockjs-go.v2/sockjs"
 )
 
@@ -43,7 +41,6 @@ func (p *SocketSessionsPool) Send(payload string, optimize bool) {
 		p.previousPayloadCache[s] = payload
 
 		if err := s.Send(payload); err != nil {
-			log.Println("Failed sending to session", err)
 			s.Close(1, "failed to send")
 			sessionsToRemove = append(sessionsToRemove, s)
 		}

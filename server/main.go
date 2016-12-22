@@ -17,21 +17,81 @@ import (
 
 	"strconv"
 
+	"gngeorgiev/audiotic/server/history"
+
 	"gopkg.in/gin-contrib/cors.v1"
 	"gopkg.in/gin-gonic/gin.v1"
 	"gopkg.in/igm/sockjs-go.v2/sockjs"
 )
 
 func main() {
+	//var isHelp bool
+
+	//app := cli.NewApp()
+	//
+	//app.Flags = []cli.Flag{
+	//	cli.BoolFlag{
+	//		Name:  "no-web",
+	//		Usage: "Do not serve web UI",
+	//	},
+	//	cli.StringFlag{
+	//		Name:  "web-path, w",
+	//		Usage: "Specify where to server the web UI from",
+	//		Value: "www",
+	//	},
+	//	cli.BoolFlag{
+	//		Name:        "help, h",
+	//		Usage:       "show help",
+	//		Destination: &isHelp,
+	//	},
+	//}
+	//
+	//app.Action = func(c *cli.Context) error {
+	//	initApp()
+	//	return nil
+	//}
+	//
+	//app.Run(os.Args)
+
+	//if isHelp {
+	//	return
+	//}
+
+	initApp()
+
+	stopCh := make(chan os.Signal)
+	signal.Notify(stopCh, os.Interrupt)
+	<-stopCh
+
+	func() {
+		if player.Get() != nil {
+			if err := player.Get().Release(); err != nil {
+				log.Fatal(err)
+			}
+		}
+	}()
+
+	func() {
+		if err := history.Release(); err != nil {
+			log.Fatal(err)
+		}
+	}()
+}
+
+func initApp() {
 	if err := player.Init(); err != nil {
-		panic(err)
+		log.Fatal(err)
+	}
+
+	if err := history.Init(); err != nil {
+		log.Fatal(err)
 	}
 
 	r := gin.Default()
 	r.RedirectTrailingSlash = true
 
 	c := cors.DefaultConfig()
-	c.AllowOrigins = []string{"http://localhost:3000"}
+	c.AllowAllOrigins = true
 	r.Use(cors.New(c))
 
 	m := r.Group("/meta")
@@ -52,17 +112,21 @@ func main() {
 		p.GET("/updates/*info", playerUpdatesHandler())
 	}
 
+	h := r.Group("/history")
+	{
+		h.GET("/get", getHistoryHandler())
+	}
+
+	s := gin.Default()
+	s.Static("/", "./www")
+
 	go func() {
 		log.Fatal(r.Run(":8090"))
 	}()
 
-	stopCh := make(chan os.Signal)
-	signal.Notify(stopCh, os.Interrupt)
-	<-stopCh
-
-	if err := player.Get().Release(); err != nil {
-		log.Fatal(err)
-	}
+	go func() {
+		log.Fatal(s.Run(":8091"))
+	}()
 }
 
 func autocompleteHandler() gin.HandlerFunc {
@@ -222,5 +286,17 @@ func volumeHandler() gin.HandlerFunc {
 		}
 
 		c.Status(http.StatusOK)
+	}
+}
+
+func getHistoryHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		h, err := history.Get()
+		if err != nil {
+			c.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
+
+		c.JSON(http.StatusOK, h)
 	}
 }

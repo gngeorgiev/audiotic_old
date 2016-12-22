@@ -6,6 +6,8 @@ import (
 	"gngeorgiev/audiotic/server/providers"
 	"strings"
 
+	"gngeorgiev/audiotic/server/history"
+
 	"github.com/go-errors/errors"
 )
 
@@ -26,6 +28,11 @@ func Play(providerName, id string) error {
 	}
 
 	if err := player.Get().Play(track.StreamUrl, track.Title, track.Thumbnail); err != nil {
+		return err
+	}
+
+	track.StreamUrl = ""
+	if err := history.Add(&track); err != nil {
 		return err
 	}
 

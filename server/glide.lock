@@ -1,12 +1,29 @@
-hash: f1e5177c01cee952c7b851714a9bbc08ecbede332f4ddb6f8df655edaa716eee
-updated: 2016-12-21T00:50:01.983256598+02:00
+hash: fc3b99b4d5a7c84776c16c749418ff515679e43d7979bf6d7c81b87affaf11e8
+updated: 2016-12-22T14:32:11.094719334+02:00
 imports:
 - name: github.com/adrg/libvlc-go
   version: c84c9dc2c38d96dcf76e24afcd1b7e241e44d44c
 - name: github.com/andybalholm/cascadia
   version: 196d48ce4ae8cf1c8f87088d2884eca214240887
+- name: github.com/asdine/storm
+  version: d068dc26a6cc4f53186cf51c298c863444148242
+  subpackages:
+  - codec
+  - codec/json
+  - index
+  - internal
+  - q
+- name: github.com/boltdb/bolt
+  version: 583e8937c61f1af6513608ccc75c97b6abdf4ff9
 - name: github.com/ddliu/go-httpclient
   version: 6dc3c81f67fe0727278fc53e6b65e8423c6e3a23
+- name: github.com/emirpasic/gods
+  version: ec46b0116df083cba218abbf72522c6d0c065e4e
+  subpackages:
+  - containers
+  - trees
+  - trees/redblacktree
+  - utils
 - name: github.com/gin-gonic/gin
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
   subpackages:
@@ -32,6 +49,8 @@ imports:
   version: 56a198aba89cdf7a612e6c762eff9d788b9f2dae
 - name: github.com/Sirupsen/logrus
   version: d26492970760ca5d33129d2d799e34be5c4782eb
+- name: github.com/urfave/cli
+  version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: golang.org/x/net
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:

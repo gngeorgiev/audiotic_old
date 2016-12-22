@@ -43,7 +43,7 @@ class Player extends Component {
     }
 
     componentWillReceiveProps({ track }) {
-        if (track.id) {
+        if (track.id && track.id !== this.state.track.id) {
             this.setState({track});
             this.play(track);
         }
@@ -57,7 +57,7 @@ class Player extends Component {
         };
         this.socket.onclose = () => {
             this.onSocketDisconnected();
-            setTimeout(() => this.connectToSocket(), 100);
+            setTimeout(() => this.connectToSocket(), 1000);
         };
     }
 

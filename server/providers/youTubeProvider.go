@@ -84,7 +84,6 @@ func (y *YouTubeProvider) Search(q string) ([]models.Track, error) {
 		List("id,snippet").
 		Q(q).
 		SafeSearch("none").
-		VideoCategoryId("10").
 		Type("video").
 		MaxResults(25)
 
@@ -97,7 +96,7 @@ func (y *YouTubeProvider) Search(q string) ([]models.Track, error) {
 	results := make([]models.Track, len(videos))
 	for i, item := range videos {
 		track := models.Track{
-			Id:        item.Id.VideoId,
+			ID:        item.Id.VideoId,
 			Provider:  y.GetName(),
 			Thumbnail: y.getThumbnailUrl(item.Snippet.Thumbnails),
 			Title:     item.Snippet.Title,
@@ -162,7 +161,7 @@ func (y *YouTubeProvider) getStreamUrl(id string) (string, error) {
 }
 
 func (y *YouTubeProvider) getNextVideo(id string) (string, error) {
-	res, err := y.GetService().Search.List("id").Type("video").VideoCategoryId("10").SafeSearch("none").RelatedToVideoId(id).Do()
+	res, err := y.GetService().Search.List("id").Type("video").SafeSearch("none").RelatedToVideoId(id).Do()
 	if err != nil {
 		return "", err
 	}
@@ -224,7 +223,7 @@ func (y *YouTubeProvider) Resolve(id string) (models.Track, error) {
 	}
 
 	return models.Track{
-		Id:        video.Id,
+		ID:        video.Id,
 		Provider:  y.GetName(),
 		StreamUrl: streamUrl,
 		Thumbnail: y.getThumbnailUrl(video.Snippet.Thumbnails),

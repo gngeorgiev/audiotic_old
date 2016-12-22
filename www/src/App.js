@@ -4,7 +4,7 @@ import './App.css';
 import WebFontLoader from 'webfontloader';
 
 import Player from './components/player/Player';
-import Suggest from './components/suggest/Suggest';
+import Header from './components/header/Header';
 import Search from './components/search/Search';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -37,7 +37,7 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <Suggest className="App-intro" suggestionSelected={(suggestion) => this.setState({suggestion})} />
+          <Header className="App-intro" suggestionSelected={(suggestion) => this.setState({suggestion})} />
           <Search suggestion={suggestion} playTrack={this.playTrack.bind(this)}/>
           <Player track={track} />
         </div>

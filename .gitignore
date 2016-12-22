@@ -17,3 +17,4 @@ npm-debug.log
 server/vendor
 www/core
 server/audiotic
+dist
