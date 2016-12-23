@@ -18,3 +18,7 @@ server/vendor
 www/core
 server/audiotic
 dist
+server/db.db
+.idea
+.code
+server/main
