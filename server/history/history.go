@@ -38,12 +38,19 @@ func Release() error {
 }
 
 func Add(t *models.Track) error {
+	var existing interface{}
+	if err := db.Find("id", t.ID, existing); err == nil && existing != nil {
+		if updateErr := db.UpdateField(t, "LastPlayed", t.LastPlayed); updateErr != nil {
+			return updateErr
+		}
+	}
+
 	return db.Save(t)
 }
 
 func Get() ([]models.Track, error) {
 	var res []models.Track
-	if err := db.All(&res); err != nil {
+	if err := db.AllByIndex("LastPlayed", &res, storm.Reverse()); err != nil {
 		return nil, err
 	}
 

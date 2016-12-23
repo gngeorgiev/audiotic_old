@@ -50,7 +50,10 @@ class Header extends Component {
     }
 
     back() {
-        this.setState({searching: false});
+        this.setState({
+            searching: false,
+            value: ''
+        });
         this.searchSuggestion('');
     }
 

@@ -179,7 +179,7 @@ func (v *VlcPlayer) OnUpdated(ch chan struct{}) {
 func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
 	readyChan := make(chan error)
 	go func() {
-		t := time.NewTimer(30 * time.Second)
+		t := time.NewTimer(60 * time.Second)
 
 		for {
 			select {
