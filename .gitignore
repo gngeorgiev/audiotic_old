@@ -19,6 +19,7 @@ www/core
 server/audiotic
 dist
 server/db.db
+db.db
 .idea
 .code
 server/main
