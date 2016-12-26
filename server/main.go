@@ -19,6 +19,8 @@ import (
 
 	"gngeorgiev/audiotic/server/history"
 
+	"fmt"
+
 	"gopkg.in/gin-contrib/cors.v1"
 	"gopkg.in/gin-gonic/gin.v1"
 	"gopkg.in/igm/sockjs-go.v2/sockjs"
@@ -63,25 +65,23 @@ func main() {
 	signal.Notify(stopCh, os.Interrupt)
 	<-stopCh
 
-	func() {
-		if player.Get() != nil {
-			if err := player.Get().Release(); err != nil {
-				log.Fatal(err)
-			}
-		}
-	}()
-
-	func() {
-		if err := history.Release(); err != nil {
+	if player.Get() != nil {
+		if err := player.Get().Release(); err != nil {
 			log.Fatal(err)
 		}
-	}()
+	}
+
+	if err := history.Release(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func initApp() {
 	if err := player.Init(); err != nil {
 		log.Fatal(err)
 	}
+
+	api.Autoplay(true)
 
 	if err := history.Init(); err != nil {
 		log.Fatal(err)
@@ -159,7 +159,7 @@ func playHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		provider := c.Param("provider")
 		id := c.Param("id")
-		err := api.Play(strings.ToLower(provider), id)
+		err := api.Play(provider, id)
 		if err != nil {
 			c.AbortWithError(http.StatusInternalServerError, err)
 			return
@@ -227,6 +227,7 @@ func playerUpdatesHandler() gin.HandlerFunc {
 		for {
 			select {
 			case <-updatedCh:
+				fmt.Println("update")
 				status, err := pl.Status()
 				if err != nil {
 					log.Println(err)

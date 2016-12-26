@@ -18,7 +18,7 @@ import (
 func Play(providerName, id string) error {
 	p := providers.Container().GetComponent(func(p interface{}) bool {
 		provider := p.(providers.Provider)
-		return strings.ToLower(provider.GetName()) == providerName
+		return strings.ToLower(provider.GetName()) == strings.ToLower(providerName)
 	})
 
 	if p == nil {
@@ -31,7 +31,7 @@ func Play(providerName, id string) error {
 		return err
 	}
 
-	if err := player.Get().Play(track.StreamUrl, track.Title, track.Thumbnail); err != nil {
+	if err := player.Get().Play(track); err != nil {
 		log.Println(err)
 	}
 

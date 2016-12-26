@@ -9,6 +9,8 @@ import (
 
 	"fmt"
 
+	"gngeorgiev/audiotic/server/models"
+
 	"github.com/adrg/libvlc-go"
 	"github.com/go-errors/errors"
 )
@@ -25,6 +27,7 @@ type VlcPlayer struct {
 	duration, time, volume  int
 	state                   vlc.MediaState
 	isPlaying               bool
+	track                   models.Track
 	statsMutex              sync.Mutex
 
 	startedPlayingChan chan struct{}
@@ -92,11 +95,12 @@ func (v *VlcPlayer) Resume() error {
 }
 
 func (v *VlcPlayer) updateStatus() {
+	v.statsMutex.Lock()
+	defer v.statsMutex.Unlock()
 	if v.player == nil {
 		return
 	}
 
-	v.statsMutex.Lock()
 	t, err := v.player.MediaTime()
 	if err != nil {
 		log.Println(err)
@@ -119,8 +123,11 @@ func (v *VlcPlayer) updateStatus() {
 	v.volume = vol
 
 	v.isPlaying = v.player.IsPlaying() && v.state == vlc.MediaPlaying
+}
 
-	v.statsMutex.Unlock()
+func (v *VlcPlayer) update() {
+	v.updateStatus()
+	v.notifyUpdated()
 }
 
 func (v *VlcPlayer) listenEvents() {
@@ -128,18 +135,17 @@ func (v *VlcPlayer) listenEvents() {
 	for {
 		select {
 		case <-t.C:
-			if v.IsPlaying() {
-				v.notifyUpdated()
+			if v.player == nil {
+				continue
 			}
+
+			v.update()
 		case <-v.startedPlayingChan:
-			v.updateStatus()
-			v.notifyUpdated()
+			v.update()
 		case <-v.stoppedPlayingChah:
-			v.updateStatus()
-			v.notifyUpdated()
+			v.update()
 		case <-v.pausedPlayingChan:
-			v.updateStatus()
-			v.notifyUpdated()
+			v.update()
 		case <-v.releaseChan:
 			t.Stop()
 			return
@@ -184,7 +190,7 @@ func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
 		for {
 			select {
 			case <-t.C:
-				readyChan <- errors.New(fmt.Sprintf("Timeout waiting for state %s", mediaStateToString(st)))
+				readyChan <- errors.New(fmt.Sprintf("Timeout waiting for state %s", MediaStateToString(st)))
 				v.Stop()
 				return
 			default:
@@ -207,7 +213,7 @@ func (v *VlcPlayer) waitForMediaState(st vlc.MediaState) chan error {
 	return readyChan
 }
 
-func (v *VlcPlayer) Play(source, name, thumbnail string) error {
+func (v *VlcPlayer) Play(t models.Track) error {
 	if v.player != nil {
 		v.player.Stop()
 		v.player.Release()
@@ -220,7 +226,7 @@ func (v *VlcPlayer) Play(source, name, thumbnail string) error {
 	}
 	v.player = player
 
-	if err := v.player.SetMedia(source, false); err != nil {
+	if err := v.player.SetMedia(t.StreamUrl, false); err != nil {
 		return err
 	}
 
@@ -238,14 +244,19 @@ func (v *VlcPlayer) Play(source, name, thumbnail string) error {
 	}
 
 	v.statsMutex.Lock()
-	v.source = source
-	v.name = name
-	v.thumbnail = thumbnail
+	v.source = t.StreamUrl
+	v.name = t.Title
+	v.thumbnail = t.Thumbnail
 	v.duration = d / 1000
+	v.track = t
 	v.statsMutex.Unlock()
 
 	v.notifyStartPlaying()
 	return nil
+}
+
+func (v *VlcPlayer) Track() models.Track {
+	return v.track
 }
 
 func (v *VlcPlayer) Pause() error {
@@ -343,7 +354,7 @@ type VlcStatus struct {
 	IsPlaying bool   `json:"isPlaying"`
 }
 
-func mediaStateToString(st vlc.MediaState) string {
+func MediaStateToString(st vlc.MediaState) string {
 	switch st {
 	case vlc.MediaPlaying:
 		return "playing"
@@ -377,7 +388,7 @@ func (v *VlcPlayer) Status() (*VlcStatus, error) {
 	status.Source = v.source
 	status.Time = v.time
 	status.Volume = v.volume
-	status.State = mediaStateToString(v.state)
+	status.State = MediaStateToString(v.state)
 	status.IsPlaying = v.IsPlaying()
 	status.Thumbnail = v.thumbnail
 
