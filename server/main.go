@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"gngeorgiev/audiotic/server/api"
 	"net/http"
 
@@ -12,14 +13,11 @@ import (
 	"os"
 	"os/signal"
 
-	"encoding/json"
 	"gngeorgiev/audiotic/server/socketSessionsPool"
 
 	"strconv"
 
 	"gngeorgiev/audiotic/server/history"
-
-	"fmt"
 
 	"gopkg.in/gin-contrib/cors.v1"
 	"gopkg.in/gin-gonic/gin.v1"
@@ -58,6 +56,8 @@ func main() {
 	//if isHelp {
 	//	return
 	//}
+
+	log.SetFlags(log.Lshortfile | log.Ldate | log.Ltime)
 
 	initApp()
 
@@ -227,7 +227,6 @@ func playerUpdatesHandler() gin.HandlerFunc {
 		for {
 			select {
 			case <-updatedCh:
-				fmt.Println("update")
 				status, err := pl.Status()
 				if err != nil {
 					log.Println(err)

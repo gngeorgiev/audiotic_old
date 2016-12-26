@@ -1,10 +1,12 @@
-hash: fc3b99b4d5a7c84776c16c749418ff515679e43d7979bf6d7c81b87affaf11e8
-updated: 2016-12-22T14:32:11.094719334+02:00
+hash: ef7752e7762f5dbd0a18c097fb306badb915103a04887bd6aed0cf5260753eff
+updated: 2016-12-26T21:59:42.777431234+02:00
 imports:
 - name: github.com/adrg/libvlc-go
   version: c84c9dc2c38d96dcf76e24afcd1b7e241e44d44c
 - name: github.com/andybalholm/cascadia
   version: 196d48ce4ae8cf1c8f87088d2884eca214240887
+- name: github.com/ansel1/merry
+  version: e1c02f7f58d855a1aa2a8751c06adca27773da67
 - name: github.com/asdine/storm
   version: d068dc26a6cc4f53186cf51c298c863444148242
   subpackages:
@@ -36,7 +38,7 @@ imports:
   subpackages:
   - proto
 - name: github.com/gorilla/websocket
-  version: 1f512fc3f05332ba7117626cdfb4e07474e58e60
+  version: 3ab3a8b8831546bd18fd182c20687ca853b2bb13
 - name: github.com/kr/pty
   version: ce7fa45920dc37a92de8377972e52bc55ffa8d57
 - name: github.com/manucorporat/sse

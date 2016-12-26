@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"sync"
-
-	"github.com/adrg/libvlc-go"
 )
 
 var (
@@ -52,8 +50,12 @@ func initAutoplay() {
 			select {
 			case <-updatesCh:
 				st, _ := p.Status()
+				if st == nil {
+					continue
+				}
+
 				t := p.Track()
-				if st.State == player.MediaStateToString(vlc.MediaEnded) && t.Provider != "" && t.Next != "" {
+				if st.Time >= st.Duration && t.Provider != "" && t.Next != "" {
 					if err := Play(t.Provider, t.Next); err != nil {
 						log.Println(err)
 					}
