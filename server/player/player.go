@@ -108,6 +108,12 @@ func (v *VlcPlayer) eventLoop() {
 			}
 
 			v.update(t)
+		case <-v.resumePlayingChan:
+			if err := v.resume(); err != nil {
+				log.Println(err)
+			}
+
+			v.update(t)
 		case vol := <-v.volumeChan:
 			if err := v.setVolume(vol); err != nil {
 				log.Println(err)
