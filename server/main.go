@@ -222,24 +222,19 @@ var playerUpdatesSessionPool = socketSessionsPool.New()
 func playerUpdatesHandler() gin.HandlerFunc {
 	go func() {
 		pl := player.Get()
-		updatedCh := make(chan struct{})
+		updatedCh := make(chan *player.VlcStatus)
 		pl.OnUpdated(updatedCh)
+
 		for {
 			select {
-			case <-updatedCh:
-				status, err := pl.Status()
-				if err != nil {
-					log.Println(err)
-					continue
-				}
-
+			case status := <-updatedCh:
 				b, err := json.Marshal(status)
 				if err != nil {
 					log.Println(err)
 					continue
 				}
 
-				playerUpdatesSessionPool.Send(string(b), true)
+				playerUpdatesSessionPool.Send(string(b))
 			}
 		}
 	}()

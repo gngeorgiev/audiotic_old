@@ -3,9 +3,10 @@ package api
 import (
 	"gngeorgiev/audiotic/server/player"
 	"log"
-	"time"
 
 	"sync"
+
+	"github.com/adrg/libvlc-go"
 )
 
 var (
@@ -39,23 +40,17 @@ func Autoplay(enabled bool) {
 
 func initAutoplay() {
 	for {
-		time.Sleep(500 * time.Millisecond)
-
 		<-autoplayEnabled
 		p := player.Get()
-		updatesCh := make(chan struct{})
+		updatesCh := make(chan *player.VlcStatus)
 		p.OnUpdated(updatesCh)
 
 		for {
 			select {
-			case <-updatesCh:
-				st, _ := p.Status()
-				if st == nil {
-					continue
-				}
-
+			case status := <-updatesCh:
 				t := p.Track()
-				if st.Time >= st.Duration && t.Provider != "" && t.Next != "" {
+				if status.State == player.MediaStateToString(vlc.MediaEnded) {
+					//if st.Time >= st.Duration && t.Provider != "" && t.Next != "" {
 					if err := Play(t.Provider, t.Next); err != nil {
 						log.Println(err)
 					}
