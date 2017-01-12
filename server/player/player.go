@@ -66,7 +66,7 @@ func (v *VlcPlayer) init() error {
 }
 
 func (v *VlcPlayer) initInternals() error {
-	if err := vlc.Init(); err != nil {
+	if err := vlc.Init("--no-video"); err != nil {
 		return err
 	}
 
